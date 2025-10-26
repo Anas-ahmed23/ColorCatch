@@ -30,4 +30,30 @@ public class PlayerController : MonoBehaviour
         Vector3 moveVelocity = moveInput * moveSpeed;
         rb.MovePosition(rb.position + moveVelocity * Time.fixedDeltaTime);
     }
+    void OnTriggerEnter(Collider other)
+    {
+        Collectible c = other.GetComponent<Collectible>();
+        if (c != null)
+        {
+            Color collectedColor = c.GetComponent<Renderer>().material.color;
+
+            if (collectedColor == GameManager.Instance.targetColor)
+            {
+                GameManager.Instance.AddScore(1);
+            }
+            else
+            {
+                GameManager.Instance.AddScore(-1);
+            }
+
+            Destroy(other.gameObject);
+
+            // Change the target color after every collection
+            GameManager.Instance.SetRandomTargetColor();
+        }
+    }
+
+
 }
+
+
