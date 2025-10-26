@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -35,8 +35,18 @@ public class PlayerController : MonoBehaviour
         Collectible c = other.GetComponent<Collectible>();
         if (c != null)
         {
+            // ✅ Play collect sound
+            if (c.collectSound != null)
+                AudioSource.PlayClipAtPoint(c.collectSound, transform.position);
+
+            // ✅ Spawn particle effect BEFORE destroying collectible
+            if (GameManager.Instance.collectEffectPrefab != null)
+                Instantiate(GameManager.Instance.collectEffectPrefab, other.transform.position, Quaternion.identity);
+
+            // ✅ Get collectible color
             Color collectedColor = c.GetComponent<Renderer>().material.color;
 
+            // ✅ Check if it matches target
             if (collectedColor == GameManager.Instance.targetColor)
             {
                 GameManager.Instance.AddScore(1);
@@ -46,12 +56,12 @@ public class PlayerController : MonoBehaviour
                 GameManager.Instance.AddScore(-1);
             }
 
+            // ✅ Destroy collectible and set new target
             Destroy(other.gameObject);
-
-            // Change the target color after every collection
             GameManager.Instance.SetRandomTargetColor();
         }
     }
+
 
 
 }

@@ -22,6 +22,10 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverPanel;
     public TextMeshProUGUI finalScoreText;
 
+    [Header("Effects")]
+    public GameObject collectEffectPrefab;
+
+
     void Awake()
     {
         Instance = this;

@@ -146,4 +146,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9caf862d68f824a9b6e8029cd72a73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Collectible
+  collectSound: {fileID: 8300000, guid: e17ac2f79ba5ec74b82c67c953779b7e, type: 3}
   collectibleColor: {r: 1, g: 0, b: 0, a: 1}

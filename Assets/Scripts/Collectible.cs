@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
-    public Color collectibleColor;  // The color of this object
+    [Header("Collectible Settings")]
+    public AudioClip collectSound;      // sound to play when collected
+    public Color collectibleColor;      // color of this object
+
     private Renderer rend;
 
     void Start()
