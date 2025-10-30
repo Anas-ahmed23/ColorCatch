@@ -35,32 +35,36 @@ public class PlayerController : MonoBehaviour
         Collectible c = other.GetComponent<Collectible>();
         if (c != null)
         {
-            // ✅ Play collect sound
+            // Play collect sound
             if (c.collectSound != null)
                 AudioSource.PlayClipAtPoint(c.collectSound, transform.position);
 
-            // ✅ Spawn particle effect BEFORE destroying collectible
-            if (GameManager.Instance.collectEffectPrefab != null)
-                Instantiate(GameManager.Instance.collectEffectPrefab, other.transform.position, Quaternion.identity);
-
-            // ✅ Get collectible color
+            // Get collectible color
             Color collectedColor = c.GetComponent<Renderer>().material.color;
 
-            // ✅ Check if it matches target
-            if (collectedColor == GameManager.Instance.targetColor)
+            // Spawn color-matched particle effect
+            if (GameManager.Instance.collectEffectPrefab != null)
             {
-                GameManager.Instance.AddScore(1);
-            }
-            else
-            {
-                GameManager.Instance.AddScore(-1);
+                GameObject effect = Instantiate(GameManager.Instance.collectEffectPrefab, other.transform.position, Quaternion.identity);
+                var particle = effect.GetComponent<ParticleSystem>();
+                if (particle != null)
+                {
+                    var main = particle.main;
+                    main.startColor = collectedColor; // Set the burst color!
+                }
             }
 
-            // ✅ Destroy collectible and set new target
+            // Score logic
+            if (collectedColor == GameManager.Instance.targetColor)
+                GameManager.Instance.AddScore(1);
+            else
+                GameManager.Instance.AddScore(-1);
+
             Destroy(other.gameObject);
             GameManager.Instance.SetRandomTargetColor();
         }
     }
+
 
 
 
